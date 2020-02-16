@@ -6,28 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>java笔记-junit | arRki1的博客</title>
+  <title>java笔记-反射reflect | arRki1的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="用junit测试方法可独立运行，测试起来十分方便 前备工作 下载junit的jar包 将其添加至工程  使用junit 创建测试文件夹 在文件夹中新建测试类 接下来测试方法">
+  <meta name="description" content="概念将类的各个组成部分封装为其他对象，这就是反射机制。 想要理解java的反射，首先要理解java在计算机中经历的三个阶段Java程序在源代码阶段由.java文件被编译为.class文件，在Class类对象阶段，被类加载器（ClassLoader）加载进内存，在内存中类被分为了三大部分，分别是字段（Field）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="java笔记-junit">
-<meta property="og:url" content="http://yoursite.com/2020/02/16/java%E7%AC%94%E8%AE%B0-junit/index.html">
+<meta property="og:title" content="java笔记-反射reflect">
+<meta property="og:url" content="http://yoursite.com/2020/02/16/java%E7%AC%94%E8%AE%B0-%E5%8F%8D%E5%B0%84reflect/index.html">
 <meta property="og:site_name" content="arRki1的博客">
-<meta property="og:description" content="用junit测试方法可独立运行，测试起来十分方便 前备工作 下载junit的jar包 将其添加至工程  使用junit 创建测试文件夹 在文件夹中新建测试类 接下来测试方法">
+<meta property="og:description" content="概念将类的各个组成部分封装为其他对象，这就是反射机制。 想要理解java的反射，首先要理解java在计算机中经历的三个阶段Java程序在源代码阶段由.java文件被编译为.class文件，在Class类对象阶段，被类加载器（ClassLoader）加载进内存，在内存中类被分为了三大部分，分别是字段（Field）">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://yoursite.com/assets/blogImg/junit_testadd.png">
-<meta property="og:image" content="http://yoursite.com/assets/blogImg/junit_testdiv.png">
-<meta property="og:image" content="http://yoursite.com/assets/blogImg/testres.png">
-<meta property="og:image" content="http://yoursite.com/assets/blogImg/assert.png">
-<meta property="og:image" content="http://yoursite.com/assets/blogImg/assertres.png">
-<meta property="og:image" content="http://yoursite.com/assets/blogImg/beforeAfter.png">
-<meta property="article:published_time" content="2020-02-16T07:03:54.000Z">
-<meta property="article:modified_time" content="2020-02-16T08:36:05.040Z">
+<meta property="og:image" content="http://yoursite.com/assets/blogImg/javastages.png">
+<meta property="og:image" content="http://yoursite.com/assets/blogImg/classcomp.png">
+<meta property="article:published_time" content="2020-02-16T08:42:49.000Z">
+<meta property="article:modified_time" content="2020-02-16T13:59:14.333Z">
 <meta property="article:author" content="arRki1">
 <meta property="article:tag" content="java">
-<meta property="article:tag" content="junit">
+<meta property="article:tag" content="reflect">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/assets/blogImg/junit_testadd.png">
+<meta name="twitter:image" content="http://yoursite.com/assets/blogImg/javastages.png">
   
     <link rel="alternative" href="/atom.xml" title="arRki1的博客" type="application/atom+xml">
   
@@ -147,47 +143,101 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-java笔记-junit" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-java笔记-反射reflect" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      java笔记-junit
+      java笔记-反射reflect
     </h1>
   
 
         
-        <a href="/2020/02/16/java%E7%AC%94%E8%AE%B0-junit/" class="archive-article-date">
-  	<time datetime="2020-02-16T07:03:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-16</time>
+        <a href="/2020/02/16/java%E7%AC%94%E8%AE%B0-%E5%8F%8D%E5%B0%84reflect/" class="archive-article-date">
+  	<time datetime="2020-02-16T08:42:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-16</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>用junit测试方法可独立运行，测试起来十分方便</p>
-<h3 id="前备工作"><a href="#前备工作" class="headerlink" title="前备工作"></a>前备工作</h3><ul>
-<li>下载<a href=""https://mvnrepository.com/artifact/junit/junit/4.12"">junit的jar包</a></li>
-<li>将其添加至工程</li>
+        <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>将类的各个组成部分封装为其他对象，这就是反射机制。</p>
+<p>想要理解java的反射，首先要理解java在计算机中经历的三个阶段<br><img src="/assets/blogImg/javastages.png" alt=""><br>Java程序在源代码阶段由.java文件被编译为.class文件，在Class类对象阶段，被类加载器（ClassLoader）加载进内存，在内存中类被分为了三大部分，分别是字段（Field）<a id="more"></a>、构造器（constructor）、方法（Method），并由程序在runtime阶段从内存中得到的信息创建对象。</p>
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>可以在程序运行过程中，操作这些对象。</li>
+<li>可以解耦，提升程序的可扩展性。</li>
 </ul>
-<h3 id="使用junit"><a href="#使用junit" class="headerlink" title="使用junit"></a>使用junit</h3><ul>
-<li>创建测试文件夹</li>
-<li>在文件夹中新建测试类</li>
-<li>接下来测试方法<a id="more"></a><br>  被测试的类：  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> junit;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Calculator</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a + b;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">div</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a / b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-  测试类：  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> junit.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> junit.Calculator;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CalculatorTest</span> </span>&#123;</span><br><span class="line">    Calculator calc = <span class="keyword">new</span> Calculator();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testAdd</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> res = calc.add(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">        System.out.println(res);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDiv</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> res = calc.div(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">        System.out.println(res);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-  这时发现添加了注解@Test的方法都可以独立运行。<br>  <img src="/assets/blogImg/junit_testadd.png" alt=""><br>  <img src="/assets/blogImg/junit_testdiv.png" alt=""><br>  点击测试:<br>  <img src="/assets/blogImg/testres.png" alt=""></li>
-<li>需要注意的是junit4.11版本开始不在包含hamcrest，官网消息：<ul>
-<li>junit.jar: Includes the Hamcrest classes. The simple all-in-one solution to get started quickly.Starting with version 4.11, Hamcrest is no longer included in this jar.</li>
-<li>junit-dep.jar: Only includes the JUnit classes but not Hamcrest. Lets you use a different Hamcrest version.<br>解决方法：1.降版本到4.10及一下      2.导入hamcrest-core-1.3.jar</li>
+<h3 id="获取Class的三种方式"><a href="#获取Class的三种方式" class="headerlink" title="获取Class的三种方式"></a>获取Class的三种方式</h3><ol>
+<li>Class.forName(“全类名(包名.类名)”)：将字节码加载进内存，返回Class对象。</li>
+<li>类名.class：通过类的属性class获取。</li>
+<li>对象.getClass()：getClass()在超类Object中定义。<br> 比较三种方式获取的Class对象 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> reflect;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String stName;</span><br><span class="line">    <span class="keyword">public</span> String stNo;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//无参构造</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//有参构造</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">(String no, String name)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.stName = name;</span><br><span class="line">        <span class="keyword">this</span>.stNo = no;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doHomework</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"doing homework..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clean</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"cleaning..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">"我是"</span> + stNo + <span class="string">"号， 我的名字是"</span> + stName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> reflect;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">reflectDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException </span>&#123;</span><br><span class="line">        Student st = <span class="keyword">new</span> Student();</span><br><span class="line">        <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">        Class cls1 = Class.forName(<span class="string">"reflect.Student"</span>);</span><br><span class="line">        Class cls2 = Student<span class="class">.<span class="keyword">class</span></span>;</span><br><span class="line">        Class cls3 = st.getClass();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(cls1 != cls2)    flag = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(cls1 != cls3)    flag = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(flag) System.out.println(<span class="string">"三个对象相同"</span>);</span><br><span class="line">        <span class="keyword">else</span> System.out.println(<span class="string">"对象不相同"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+ 结果<br> <img src="/assets/blogImg/classcomp.png" alt=""><br> 可以看出3类方式得到的对象相同</li>
+</ol>
+<h3 id="class对象功能"><a href="#class对象功能" class="headerlink" title="class对象功能"></a>class对象功能</h3><ul>
+<li><p>获取功能</p>
+<ol>
+<li>获取成员变量们<ul>
+<li>Field[] getFields() ：获取所有public修饰的成员变量 </li>
+<li>Field getField(String name) ：获取指定名称的public修饰的成员变量</li>
+<li>Field[] getDeclaredFields() ：获取所有成员变量，不考虑修饰符</li>
+<li>Field getDeclaredField(String name)</li>
+</ul>
+</li>
+<li>获取构造方法们<ul>
+<li>Constructor&lt;?&gt;[] getConstructors()</li>
+<li>Constructor<T> getConstructor(类&lt;?&gt;… parameterTypes)</li>
+<li>Constructor&lt;?&gt;[] getDeclaredConstructors()</li>
+<li>Constructor<T> getDeclaredConstructor(类&lt;?&gt;… parameterTypes)</li>
+</ul>
+</li>
+<li>获取成员方法们<ul>
+<li>Method[] getMethods()</li>
+<li>Method getMethod(String name, 类&lt;?&gt;… parameterTypes)</li>
+<li>Method[] getDeclaredMethods()</li>
+<li>Method getDeclaredMethod(String name, 类&lt;?&gt;… parameterTypes)</li>
+</ul>
+</li>
+<li>获取类名<ul>
+<li>String getName()</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>Field : 成员变量</p>
+<ul>
+<li>操作 ：<ol>
+<li>设置值<br>  void set(Object obj, Object value)</li>
+<li>获取值<br>  get(Object obj)</li>
+<li>忽略访问权限修饰符的安全检查<br>  setAccessible(true) : 暴力反射</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>Constructor : 构造方法</p>
+<ul>
+<li>创建对象 ：<ul>
+<li>T newInstance(Object… initargs)</li>
+<li>如果使用空参构造方法创建对象，操作可以简化：Class对象的newInstance方法 </li>
 </ul>
 </li>
 </ul>
-<h3 id="使用Assert检查结果"><a href="#使用Assert检查结果" class="headerlink" title="使用Assert检查结果"></a>使用Assert检查结果</h3><p>如果想要检查结果和期望值是否相同，可以使用Assert类提供的方法<br>测试：<br><img src="/assets/blogImg/assert.png" alt=""><br>测试结果：<br><img src="/assets/blogImg/assertres.png" alt=""><br>发现testDiv方法的结果3，与期望值2不同，所以测试未通过。</p>
-<h3 id="使用-Before，-After"><a href="#使用-Before，-After" class="headerlink" title="使用@Before，@After"></a>使用@Before，@After</h3><p>在代码测试过程中，有时会涉及很多重复的操作，这时，可以使用@Before，@After来避免。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> junit.Calculator;</span><br><span class="line"><span class="keyword">import</span> org.junit.After;</span><br><span class="line"><span class="keyword">import</span> org.junit.Assert;</span><br><span class="line"><span class="keyword">import</span> org.junit.Before;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.sql.SQLOutput;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CalculatorTest</span> </span>&#123;</span><br><span class="line">    Calculator calc = <span class="keyword">new</span> Calculator();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testAdd</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> res = calc.add(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">        System.out.println(<span class="string">"add..."</span>);</span><br><span class="line">        Assert.assertEquals(<span class="number">2</span>, res);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDiv</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> res = calc.div(<span class="number">3</span>, <span class="number">1</span>);</span><br><span class="line">        System.out.println(<span class="string">"div..."</span>);</span><br><span class="line">        Assert.assertEquals(<span class="number">2</span>, res);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Before</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"init..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@After</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"close..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>结果：<br><img src="/assets/blogImg/beforeAfter.png" alt=""><br>可以看到所有测试方法在执行测试前都执行了@Before标注的方法，在执行测试后都执行了@After标注的方法，且发现即使被测试的方法未通过，@After标注的方法照常执行。</p>
+</li>
+<li><p>Method : 方法对象</p>
+<ul>
+<li>执行方法：<ul>
+<li>Object invoke(Object obj, Object… args)</li>
+</ul>
+</li>
+<li>获取方法名称<ul>
+<li>String getName()</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
       
 
@@ -205,7 +255,7 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">junit</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">reflect</a>
         		</li>
       		
 		</ul>
@@ -261,7 +311,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/02/16/java%E7%AC%94%E8%AE%B0-junit/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/02/16/java%E7%AC%94%E8%AE%B0-%E5%8F%8D%E5%B0%84reflect/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -275,18 +325,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/02/16/java%E7%AC%94%E8%AE%B0-%E5%8F%8D%E5%B0%84reflect/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          java笔记-反射reflect
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/02/14/%E8%AF%95%E8%AF%95maven/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">试试maven</div>
+    <a href="/2020/02/16/java%E7%AC%94%E8%AE%B0-junit/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">java笔记-junit</div>
       <i class="icon-circle-right"></i>
     </a>
   
